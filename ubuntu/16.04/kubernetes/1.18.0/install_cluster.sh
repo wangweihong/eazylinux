@@ -2,6 +2,8 @@
 set -e
 set -x
 
+KUBEVERSION=1.18.0-00
+
 cat > /usr/bin/kubelet-pre-start.sh <<END
 #!/bin/bash
 # Open ipvs
@@ -69,7 +71,7 @@ localIP=`/sbin/ifconfig ens33 | awk -F ' *|:' '/inet addr/{print $4}'`
 
 # make sure has set proxy
 kubeadm config images pull
-kubeadm init --apiserver-advertise-address=$localIP
+kubeadm init --apiserver-advertise-address=$localIP --kubernetes-version=$KUBEVERSION
 
 # 安装网络插件
 kubectl apply -f https://docs.projectcalico.org/archive/v3.14/manifests/calico.yaml

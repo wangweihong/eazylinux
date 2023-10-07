@@ -1,6 +1,10 @@
 #! /bin/bash
+
 set -e
 set -x
+
+
+KUBEVERSION=1.18.0-00
 
 # clean old data
 rm /etc/apt/keyrings/kubernetes-apt-keyring.gpg || true
@@ -15,5 +19,5 @@ mkdir -p /usr/share/keyrings
 wget  https://packages.cloud.google.com/apt/doc/apt-key.gpg -O /usr/share/keyrings/kubernetes-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt-get install -y kubelet=1.18.0-00 kubeadm=1.18.0-00 kubectl=1.18.0-00
+sudo apt-get install -y kubelet=$KUBEVERSION kubeadm=$KUBEVERSION kubectl=$KUBEVERSION --allow-unauthenticated
 sudo apt-mark hold kubelet kubeadm kubectl
